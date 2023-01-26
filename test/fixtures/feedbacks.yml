@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  uniqid: MyString
+  score: 1
+  message: MyText
+  created_at: 2023-01-26 23:36:38
+  updated_at: 2023-01-26 23:36:38
+  invoice: 
+  product: 
+
+two:
+  uniqid: MyString
+  score: 1
+  message: MyText
+  created_at: 2023-01-26 23:36:38
+  updated_at: 2023-01-26 23:36:38
+  invoice: 
+  product: 
