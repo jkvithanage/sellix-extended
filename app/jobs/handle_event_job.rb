@@ -12,6 +12,6 @@ class HandleEventJob < ApplicationJob
   private
 
   def handle_feedback(event)
-    CreateFeedbackService.new(event).create
+    CreateFeedbackService.new(event).create_feedback
   end
 end

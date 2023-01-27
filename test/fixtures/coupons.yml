@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  uniqid: MyString
+  code: MyString
+  discount: 9.99
+  used: 1
+  expire_at: 2023-01-27 00:53:02
+  created_at: 1
+  updated_at: 1
+
+two:
+  uniqid: MyString
+  code: MyString
+  discount: 9.99
+  used: 1
+  expire_at: 2023-01-27 00:53:02
+  created_at: 1
+  updated_at: 1
