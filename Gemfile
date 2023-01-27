@@ -76,3 +76,4 @@ end
 
 gem "devise", "~> 4.8"
 gem "sidekiq", "~> 7.0"
+gem "faraday", "~> 2.7"

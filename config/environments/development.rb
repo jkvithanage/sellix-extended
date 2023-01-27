@@ -61,7 +61,7 @@ Rails.application.configure do
   # Suppress logger output for asset requests.
   config.assets.quiet = true
 
-  config.hosts << '0219-202-171-186-49.au.ngrok.io'
+  config.hosts << 'a0c9-202-171-186-49.au.ngrok.io'
 
   config.web_console.permissions = '99.81.24.41'
 
