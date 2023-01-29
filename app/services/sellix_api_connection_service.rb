@@ -6,6 +6,7 @@ class SellixApiConnectionService
   def connection
     Faraday.new(@base_url) do |conn|
       conn.request :authorization, 'Bearer', -> { Rails.application.credentials.sellix_key }
+      conn.response :json
     end
   end
 end
