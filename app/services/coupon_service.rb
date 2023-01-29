@@ -1,12 +1,31 @@
 class CouponService
-  def update_coupons
+  def initialize
     connection = SellixApiConnectionService.new.connection
     response = connection.get('coupons')
-    coupons = response.body['data']['coupons']
-    coupons.each do |coupon|
+    @coupons = response.body['data']['coupons']
+  end
+
+  def update_coupons
+    @coupons.each do |coupon|
       db_coupon = Coupon.find_by(uniqid: coupon['uniqid'])
       db_coupon.present? ? update_coupon(db_coupon) : create_coupon(coupon)
     end
+
+    delete_coupons
+  end
+
+  private
+
+  def delete_coupons
+    uniqids = []
+    @coupons.each do |coupon|
+      uniqids << coupon['uniqid']
+    end
+    Coupon.all.each do |db_coupon|
+      db_coupon.destroy unless uniqids.any? { |id| id == db_coupon.uniqid }
+    end
+
+    Coupon.count
   end
 
   def update_coupon(db_coupon)

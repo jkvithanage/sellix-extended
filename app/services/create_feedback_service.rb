@@ -23,27 +23,32 @@ class CreateFeedbackService
     email = feedback.invoice['customer_email']
     code = email.split('@').first
     connection = SellixApiConnectionService.new.connection
+
+    # Update local db
+    CouponService.new.update_coupons
+
     if Coupon.find_by(code: code).present?
-      update_coupon(Coupon.find_by(code: code), connection)
+      # Update coupon on sellix
+      put_coupon(Coupon.find_by(code: code), connection)
     else
-      create_coupon(code, connection)
+      # Create a coupon on sellix
+      post_coupon(code, connection)
     end
   end
 
-  def update_coupon(coupon, connection)
-    # TODO: Before this, sync coupons to the local db
+  def put_coupon(coupon, connection)
     payload = {
       discount_value: coupon.discount,
-      max_uses: coupon.discount + 1
+      max_uses: coupon.max_uses + 1
     }
 
-    connection.put('coupons/63d3ce17a4e62') do |req|
+    connection.put("coupons/#{coupon.uniqid}") do |req|
       req.body = payload.to_json
       req.headers['Content-Type'] = 'application/json'
     end
   end
 
-  def create_coupon(code, connection)
+  def post_coupon(code, connection)
     payload = {
       code: code,
       discount_value: 10,
@@ -54,9 +59,12 @@ class CreateFeedbackService
       max_uses: 1
     }
 
-    connection.post('coupons') do |req|
+    response = connection.post('coupons') do |req|
       req.body = payload.to_json
       req.headers['Content-Type'] = 'application/json'
     end
+
+    p response.body
+    CouponService.new.update_coupons
   end
 end
