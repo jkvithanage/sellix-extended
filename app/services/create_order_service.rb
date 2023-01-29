@@ -20,6 +20,6 @@ class CreateOrderService
       updated_at: @event.payload['data']['updated_at']
     )
 
-    CouponService.new.update_coupons(order.coupon_uniqid) if order.coupon_uniqid.present?
+    CouponService.new.update_coupons if order.coupon_uniqid.present?
   end
 end
