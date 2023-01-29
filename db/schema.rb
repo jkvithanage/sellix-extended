@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_27_091835) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_29_052011) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -40,6 +40,22 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_27_091835) do
     t.datetime "updated_at"
     t.json "invoice"
     t.json "product"
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.string "uniqid"
+    t.string "order_type"
+    t.decimal "total"
+    t.decimal "crypto_exchange_rate"
+    t.string "customer_email"
+    t.string "gateway"
+    t.decimal "crypto_amount"
+    t.decimal "crypto_received"
+    t.string "country"
+    t.string "coupon_uniqid"
+    t.decimal "discount"
+    t.integer "created_at"
+    t.integer "updated_at"
   end
 
   create_table "users", force: :cascade do |t|

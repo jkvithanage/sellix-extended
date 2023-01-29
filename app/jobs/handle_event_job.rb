@@ -6,6 +6,8 @@ class HandleEventJob < ApplicationJob
     case event.source
     when 'feedbacks'
       handle_feedback(event)
+    when 'orders'
+      handle_orders(event)
     end
   end
 
@@ -13,5 +15,12 @@ class HandleEventJob < ApplicationJob
 
   def handle_feedback(event)
     CreateFeedbackService.new(event).create_feedback
+  end
+
+  def handle_orders(event)
+    case event.payload['event']
+    when 'order:paid'
+      CreateOrderService.new(event).create_order
+    end
   end
 end
