@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_29_052011) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_31_095000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -56,6 +56,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_29_052011) do
     t.decimal "discount"
     t.integer "created_at"
     t.integer "updated_at"
+  end
+
+  create_table "products", force: :cascade do |t|
+    t.string "uniqid"
+    t.string "title"
+    t.decimal "price"
+    t.integer "warranty"
+    t.json "feedback"
+    t.integer "sold_count"
+    t.decimal "average_score"
   end
 
   create_table "users", force: :cascade do |t|

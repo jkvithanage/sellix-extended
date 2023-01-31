@@ -1,4 +1,4 @@
-class CreateFeedbackService
+class FeedbackService
   def initialize(event)
     @event = event
   end
@@ -59,12 +59,11 @@ class CreateFeedbackService
       max_uses: 1
     }
 
-    response = connection.post('coupons') do |req|
+    connection.post('coupons') do |req|
       req.body = payload.to_json
       req.headers['Content-Type'] = 'application/json'
     end
 
-    p response.body
     CouponService.new.update_coupons
   end
 end
