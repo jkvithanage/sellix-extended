@@ -1,3 +1,6 @@
+# Sellix haven't provided webhook endpoints for coupons.
+# So we have to sync them based on other events to keep the local db up to date.
+
 class CouponService
   def initialize
     connection = SellixApiConnectionService.new.connection

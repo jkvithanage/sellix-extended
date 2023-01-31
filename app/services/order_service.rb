@@ -1,4 +1,4 @@
-class CreateOrderService
+class OrderService
   def initialize(event)
     @event = event
   end
