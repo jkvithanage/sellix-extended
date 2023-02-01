@@ -9,7 +9,7 @@ class HandleEventJob < ApplicationJob
     when 'orders'
       handle_orders(event)
     when 'products'
-      handle_products(event)
+      handle_products
     end
   end
 
@@ -26,7 +26,7 @@ class HandleEventJob < ApplicationJob
     end
   end
 
-  def handle_products(event)
-    ProductService.new(event).update_products
+  def handle_products
+    ProductService.new.update_products
   end
 end
