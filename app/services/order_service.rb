@@ -9,7 +9,7 @@ class OrderService
       order_type: @event.payload['data']['type'],
       total: @event.payload['data']['total'],
       crypto_exchange_rate: @event.payload['data']['crypto_exchange_rate'],
-      customer_email: @event.payload['data']['customer_email'],
+      customer_email: @event.payload['data']['customer_email'].downcase,
       gateway: @event.payload['data']['gateway'],
       crypto_amount: @event.payload['data']['crypto_amount'],
       crypto_received: @event.payload['data']['crypto_received'],
