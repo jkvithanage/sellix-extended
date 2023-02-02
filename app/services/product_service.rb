@@ -1,4 +1,4 @@
-# Same as products, we always keep calling Sellix API to keep out local db up to date.
+# Same as products, we always keep calling Sellix API to keep local db up to date.
 class ProductService
   def initialize
     @connection = SellixApiConnectionService.new.connection
