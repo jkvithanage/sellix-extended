@@ -4,10 +4,12 @@ class CreateFeedbacks < ActiveRecord::Migration[7.0]
       t.string :uniqid
       t.integer :score
       t.text :message
-      t.datetime :created_at
-      t.datetime :updated_at
+      t.integer :created_at
+      t.integer :updated_at
       t.json :invoice
       t.json :product
+
+      t.index :uniqid, unique: true
     end
   end
 end

@@ -14,7 +14,7 @@ class FeedbackService
       product: @event.payload['data']['product']
     )
 
-    handle_coupon(feedback)
+    handle_coupon(feedback) if feedback.score == 5
   end
 
   private

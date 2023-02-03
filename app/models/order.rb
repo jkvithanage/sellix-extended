@@ -1,3 +1,3 @@
 class Order < ApplicationRecord
-  scope :ordered, -> { order(updated_at: :desc) }
+  scope :ordered, -> { order(created_at: :desc) }
 end

@@ -23,6 +23,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_31_095000) do
     t.integer "created_at"
     t.integer "updated_at"
     t.integer "max_uses"
+    t.index ["uniqid"], name: "index_coupons_on_uniqid", unique: true
   end
 
   create_table "events", force: :cascade do |t|
@@ -36,10 +37,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_31_095000) do
     t.string "uniqid"
     t.integer "score"
     t.text "message"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.integer "created_at"
+    t.integer "updated_at"
     t.json "invoice"
     t.json "product"
+    t.index ["uniqid"], name: "index_feedbacks_on_uniqid", unique: true
   end
 
   create_table "orders", force: :cascade do |t|
@@ -56,6 +58,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_31_095000) do
     t.decimal "discount"
     t.integer "created_at"
     t.integer "updated_at"
+    t.index ["uniqid"], name: "index_orders_on_uniqid", unique: true
   end
 
   create_table "products", force: :cascade do |t|
@@ -66,6 +69,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_31_095000) do
     t.json "feedback"
     t.integer "sold_count"
     t.decimal "average_score"
+    t.index ["uniqid"], name: "index_products_on_uniqid", unique: true
   end
 
   create_table "users", force: :cascade do |t|

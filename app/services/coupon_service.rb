@@ -9,10 +9,20 @@ class CouponService
   end
 
   def update_coupons
-    @coupons.each do |coupon|
-      db_coupon = Coupon.find_by(uniqid: coupon['uniqid'])
-      db_coupon.present? ? update_coupon(db_coupon, coupon) : create_coupon(coupon)
+    coupon_attrs = @coupons.map do |coupon|
+      {
+        uniqid: coupon['uniqid'],
+        code: coupon['code'],
+        discount: coupon['discount'],
+        used: coupon['used'],
+        max_uses: coupon['max_uses'],
+        expire_at: coupon['expire_at'],
+        created_at: coupon['created_at'],
+        updated_at: coupon['updated_at']
+      }
     end
+
+    Coupon.upsert_all(coupon_attrs, unique_by: :uniqid, record_timestamps: false)
 
     delete_coupons
   end
@@ -29,28 +39,5 @@ class CouponService
     end
 
     Coupon.count
-  end
-
-  def update_coupon(db_coupon, coupon)
-    db_coupon.update(
-      code: coupon['code'],
-      discount: coupon['discount'],
-      used: coupon['used'],
-      max_uses: coupon['max_uses'],
-      created_at: coupon['created_at'],
-      updated_at: coupon['updated_at']
-    )
-  end
-
-  def create_coupon(coupon)
-    Coupon.create(
-      uniqid: coupon['uniqid'],
-      code: coupon['code'],
-      discount: coupon['discount'],
-      used: coupon['used'],
-      max_uses: coupon['max_uses'],
-      created_at: coupon['created_at'],
-      updated_at: coupon['updated_at']
-    )
   end
 end

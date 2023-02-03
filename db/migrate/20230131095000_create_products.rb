@@ -8,6 +8,8 @@ class CreateProducts < ActiveRecord::Migration[7.0]
       t.json :feedback
       t.integer :sold_count
       t.decimal :average_score
+
+      t.index :uniqid, unique: true
     end
   end
 end

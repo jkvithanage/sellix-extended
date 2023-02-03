@@ -7,13 +7,21 @@ class ProductService
   end
 
   def update_products
-    @products.each do |product|
+    product_attrs = @products.map do |product|
       response = @connection.get("products/#{product['uniqid']}")
-      # Have to call API per each product to get sold_count and average_score
-      full_product_object = response.body['data']['product']
-      db_product = Product.find_by(uniqid: product['uniqid'])
-      db_product.present? ? update_product(db_product, full_product_object) : create_product(full_product_object)
+      product = response.body['data']['product']
+      {
+        uniqid: product['uniqid'],
+        title: product['title'],
+        price: product['price'],
+        warranty: product['warranty'],
+        feedback: product['feedback'],
+        sold_count: product['sold_count'],
+        average_score: product['average_score']
+      }
     end
+
+    Product.upsert_all(product_attrs, unique_by: :uniqid, record_timestamps: false)
 
     delete_products
   end
@@ -30,28 +38,5 @@ class ProductService
     end
 
     Product.count
-  end
-
-  def update_product(db_product, product)
-    db_product.update(
-      title: product['title'],
-      price: product['price'],
-      warranty: product['warranty'],
-      feedback: product['feedback'],
-      sold_count: product['sold_count'],
-      average_score: product['average_score']
-    )
-  end
-
-  def create_product(product)
-    Product.create(
-      uniqid: product['uniqid'],
-      title: product['title'],
-      price: product['price'],
-      warranty: product['warranty'],
-      feedback: product['feedback'],
-      sold_count: product['sold_count'],
-      average_score: product['average_score']
-    )
   end
 end
