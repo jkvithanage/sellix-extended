@@ -3,6 +3,10 @@ module ApplicationHelper
     [{
       name: 'Dashboard',
       path: dashboard_path
+    },
+    {
+      name: 'Orders',
+      path: orders_path
     }].map do |item|
       {
         name: item[:name],

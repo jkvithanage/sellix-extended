@@ -8,6 +8,8 @@ class CreateCoupons < ActiveRecord::Migration[7.0]
       t.datetime :expire_at
       t.integer :created_at
       t.integer :updated_at
+
+      t.index :uniqid, unique: true
     end
   end
 end
