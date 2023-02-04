@@ -21,7 +21,7 @@ class ProductService
       }
     end
 
-    Product.upsert_all(product_attrs, unique_by: :uniqid, record_timestamps: false)
+    Product.upsert_all(product_attrs.reverse, unique_by: :uniqid, record_timestamps: false)
 
     delete_products
   end

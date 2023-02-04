@@ -14,8 +14,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_31_095000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "coupons", force: :cascade do |t|
-    t.string "uniqid"
+  create_table "coupons", id: false, force: :cascade do |t|
+    t.string "uniqid", null: false
     t.string "code"
     t.decimal "discount"
     t.integer "used"
@@ -33,19 +33,19 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_31_095000) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "feedbacks", force: :cascade do |t|
-    t.string "uniqid"
+  create_table "feedbacks", id: false, force: :cascade do |t|
+    t.string "uniqid", null: false
     t.integer "score"
     t.text "message"
     t.integer "created_at"
     t.integer "updated_at"
-    t.json "invoice"
-    t.json "product"
+    t.string "invoice_uniqid"
+    t.string "product_uniqid"
     t.index ["uniqid"], name: "index_feedbacks_on_uniqid", unique: true
   end
 
-  create_table "orders", force: :cascade do |t|
-    t.string "uniqid"
+  create_table "orders", id: false, force: :cascade do |t|
+    t.string "uniqid", null: false
     t.string "order_type"
     t.decimal "total"
     t.decimal "crypto_exchange_rate"
@@ -54,15 +54,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_31_095000) do
     t.decimal "crypto_amount"
     t.decimal "crypto_received"
     t.string "country"
-    t.string "coupon_uniqid"
     t.decimal "discount"
     t.integer "created_at"
     t.integer "updated_at"
+    t.string "coupon_uniqid"
     t.index ["uniqid"], name: "index_orders_on_uniqid", unique: true
   end
 
-  create_table "products", force: :cascade do |t|
-    t.string "uniqid"
+  create_table "products", id: false, force: :cascade do |t|
+    t.string "uniqid", null: false
     t.string "title"
     t.decimal "price"
     t.integer "warranty"

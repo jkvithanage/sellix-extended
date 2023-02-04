@@ -22,7 +22,7 @@ class CouponService
       }
     end
 
-    Coupon.upsert_all(coupon_attrs, unique_by: :uniqid, record_timestamps: false)
+    Coupon.upsert_all(coupon_attrs.reverse, unique_by: :uniqid, record_timestamps: false)
 
     delete_coupons
   end
