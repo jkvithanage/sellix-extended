@@ -29,9 +29,11 @@ class FeedbackService
 
     if Coupon.find_by(code: code).present?
       # Update coupon on sellix
+      p 'Coupon updated'
       put_coupon(Coupon.find_by(code: code), connection)
     else
       # Create a coupon on sellix
+      p 'New coupon created'
       post_coupon(code, connection)
     end
   end
