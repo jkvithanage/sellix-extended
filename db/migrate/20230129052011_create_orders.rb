@@ -1,6 +1,6 @@
 class CreateOrders < ActiveRecord::Migration[7.0]
   def change
-    create_table :orders, id: false, primary_key: :uniqid do |t|
+    create_table :orders do |t|
       t.string :uniqid, null: false
       t.string :order_type
       t.decimal :total
@@ -13,7 +13,7 @@ class CreateOrders < ActiveRecord::Migration[7.0]
       t.decimal :discount
       t.integer :created_at
       t.integer :updated_at
-      t.string :coupon_uniqid
+      t.references :coupon
 
       t.index :uniqid, unique: true
     end

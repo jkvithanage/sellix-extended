@@ -6,15 +6,15 @@ products = products_response.body['data']['products']
 product_attrs = products.map do |product|
   response = connection.get("products/#{product['uniqid']}")
   product = response.body['data']['product']
-  {
+  hash = {
     uniqid: product['uniqid'],
     title: product['title'],
     price: product['price'],
     warranty: product['warranty'],
-    feedback: product['feedback'],
     sold_count: product['sold_count'],
     average_score: product['average_score']
   }
+  p hash
 end
 
 p Product.upsert_all(product_attrs.reverse, unique_by: :uniqid, record_timestamps: false)
@@ -23,7 +23,7 @@ p Product.upsert_all(product_attrs.reverse, unique_by: :uniqid, record_timestamp
 coupons_response = connection.get('coupons')
 coupons = coupons_response.body['data']['coupons']
 coupon_attrs = coupons.map do |coupon|
-  {
+  hash = {
     uniqid: coupon['uniqid'],
     code: coupon['code'],
     discount: coupon['discount'],
@@ -33,6 +33,7 @@ coupon_attrs = coupons.map do |coupon|
     created_at: coupon['created_at'],
     updated_at: coupon['updated_at']
   }
+  p hash
 end
 
 p Coupon.upsert_all(coupon_attrs.reverse, unique_by: :uniqid, record_timestamps: false)
@@ -43,7 +44,7 @@ orders = order_response.body['data']['orders']
 order_attrs = orders.map do |order|
   next unless order['status'] == 'COMPLETED'
 
-  {
+  hash = {
     uniqid: order['uniqid'],
     order_type: order['type'],
     total: order['total'],
@@ -53,11 +54,12 @@ order_attrs = orders.map do |order|
     crypto_amount: order['crypto_amount'],
     crypto_received: order['crypto_received'],
     country: order['country'],
-    coupon_uniqid: order['coupon_id'],
     discount: order['discount'],
     created_at: order['created_at'],
-    updated_at: order['updated_at']
+    updated_at: order['updated_at'],
+    coupon_id: Coupon.find_by(uniqid: order['coupon_id']).present? ? Coupon.find_by(uniqid: order['coupon_id']).id : nil
   }
+  p hash
 end
 
 uniq_order_attrs = order_attrs.reverse.compact.uniq { |order| order[:uniqid] }
@@ -67,15 +69,16 @@ p Order.upsert_all(uniq_order_attrs, unique_by: :uniqid, record_timestamps: fals
 feeback_response = connection.get('feedback')
 feedback = feeback_response.body['data']['feedback']
 feedback_attrs = feedback.map do |f|
-  {
+  hash = {
     uniqid: f['uniqid'],
     score: f['score'],
     message: f['message'],
     created_at: f['created_at'],
     updated_at: f['updated_at'],
-    invoice_uniqid: f['invoice_id'],
-    product_uniqid: f['product_id']
+    order_id: Order.find_by(uniqid: f['invoice_id']).present? ? Order.find_by(uniqid: f['invoice_id']).id : nil,
+    product_id: Product.find_by(uniqid: f['product_id']).present? ? Product.find_by(uniqid: f['product_id']).id : nil
   }
+  p hash
 end
 
 p Feedback.upsert_all(feedback_attrs.reverse, unique_by: :uniqid, record_timestamps: false)

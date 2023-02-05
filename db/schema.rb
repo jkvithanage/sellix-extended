@@ -14,7 +14,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_31_095000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "coupons", id: false, force: :cascade do |t|
+  create_table "coupons", force: :cascade do |t|
     t.string "uniqid", null: false
     t.string "code"
     t.decimal "discount"
@@ -33,18 +33,20 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_31_095000) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "feedbacks", id: false, force: :cascade do |t|
+  create_table "feedbacks", force: :cascade do |t|
     t.string "uniqid", null: false
     t.integer "score"
     t.text "message"
     t.integer "created_at"
     t.integer "updated_at"
-    t.string "invoice_uniqid"
-    t.string "product_uniqid"
+    t.bigint "order_id"
+    t.bigint "product_id"
+    t.index ["order_id"], name: "index_feedbacks_on_order_id"
+    t.index ["product_id"], name: "index_feedbacks_on_product_id"
     t.index ["uniqid"], name: "index_feedbacks_on_uniqid", unique: true
   end
 
-  create_table "orders", id: false, force: :cascade do |t|
+  create_table "orders", force: :cascade do |t|
     t.string "uniqid", null: false
     t.string "order_type"
     t.decimal "total"
@@ -57,16 +59,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_31_095000) do
     t.decimal "discount"
     t.integer "created_at"
     t.integer "updated_at"
-    t.string "coupon_uniqid"
+    t.bigint "coupon_id"
+    t.index ["coupon_id"], name: "index_orders_on_coupon_id"
     t.index ["uniqid"], name: "index_orders_on_uniqid", unique: true
   end
 
-  create_table "products", id: false, force: :cascade do |t|
+  create_table "products", force: :cascade do |t|
     t.string "uniqid", null: false
     t.string "title"
     t.decimal "price"
     t.integer "warranty"
-    t.json "feedback"
     t.integer "sold_count"
     t.decimal "average_score"
     t.index ["uniqid"], name: "index_products_on_uniqid", unique: true

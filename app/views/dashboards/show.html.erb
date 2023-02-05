@@ -1,4 +1,8 @@
 <%= content_for :page_title do %>
   Dashboard
 <% end %>
-Dashboard content goeas here
+<canvas
+  data-controller="chart"
+  data-chart-data-value="<%= @chart_data.to_json %>"
+  data-chart-options-value="<%= @chart_options.to_json %>"
+></canvas>
