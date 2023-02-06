@@ -4,5 +4,8 @@
 
 import { application } from "./application"
 
+import FlowbiteController from "./flowbite_controller"
+application.register("flowbite", FlowbiteController)
+
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
