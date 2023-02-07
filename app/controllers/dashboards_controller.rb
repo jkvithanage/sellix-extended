@@ -5,10 +5,22 @@ class DashboardsController < ApplicationController
     @chart_data = {
       labels: scope[0],
       datasets: [{
-        label: 'Revenue by year',
+        label: 'Total revenue',
         backgroundColor: 'transparent',
         borderColor: '#3B82F6',
         data: scope[1]
+      },
+      {
+        label: 'Crypto revenue',
+        backgroundColor: 'transparent',
+        borderColor: '#00E676',
+        data: scope[2]
+      },
+      {
+        label: 'Fiat revenue',
+        backgroundColor: 'transparent',
+        borderColor: '#E91E63',
+        data: scope[3]
       }]
     }
 
@@ -20,27 +32,31 @@ class DashboardsController < ApplicationController
       },
       tension: 0.5
     }
-    # raise
   end
 
   private
 
   def scope
     groups = Order.all.group_by { |order| Time.at(order.created_at).year }
-    overall = groups.values.map do |group|
-      sum = 0
-      group.each { |order| sum += order.total }
-      sum
+    all_arr = []
+    crypto_arr = []
+    fiat_arr = []
+    groups.values.each do |group|
+      sum_all = 0
+      sum_crypto = 0
+      sum_fiat = 0
+      group.each do |order|
+        sum_all += order.total
+        if ['STRIPE', 'PAYPAL', 'PAYDASH'].include? order.gateway
+          sum_fiat += order.total
+        else
+          sum_crypto += order.total
+        end
+      end
+      all_arr << sum_all
+      crypto_arr << sum_crypto
+      fiat_arr << sum_fiat
     end
-
-    # result = by_gateway(groups)
-
-    [groups.keys, overall]
-  end
-
-  def by_gateway(groups)
-    groups.map do |group|
-      group.values.group_by(&:gateway)
-    end
+    [groups.keys, all_arr, crypto_arr, fiat_arr]
   end
 end
