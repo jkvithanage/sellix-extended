@@ -13,7 +13,7 @@ class CreateOrders < ActiveRecord::Migration[7.0]
       t.decimal :discount
       t.integer :created_at
       t.integer :updated_at
-      t.references :coupon
+      t.string :coupon_uniqid
 
       t.index :uniqid, unique: true
     end

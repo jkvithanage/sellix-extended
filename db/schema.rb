@@ -39,10 +39,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_31_095000) do
     t.text "message"
     t.integer "created_at"
     t.integer "updated_at"
-    t.bigint "order_id"
-    t.bigint "product_id"
-    t.index ["order_id"], name: "index_feedbacks_on_order_id"
-    t.index ["product_id"], name: "index_feedbacks_on_product_id"
+    t.string "invoice_uniqid"
+    t.string "product_uniqid"
     t.index ["uniqid"], name: "index_feedbacks_on_uniqid", unique: true
   end
 
@@ -59,8 +57,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_31_095000) do
     t.decimal "discount"
     t.integer "created_at"
     t.integer "updated_at"
-    t.bigint "coupon_id"
-    t.index ["coupon_id"], name: "index_orders_on_coupon_id"
+    t.string "coupon_uniqid"
     t.index ["uniqid"], name: "index_orders_on_uniqid", unique: true
   end
 

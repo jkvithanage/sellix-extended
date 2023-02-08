@@ -57,7 +57,7 @@ order_attrs = orders.map do |order|
     discount: order['discount'],
     created_at: order['created_at'],
     updated_at: order['updated_at'],
-    coupon_id: Coupon.find_by(uniqid: order['coupon_id']).present? ? Coupon.find_by(uniqid: order['coupon_id']).id : nil
+    coupon_uniqid: order['coupon_id']
   }
   p hash
 end
@@ -75,8 +75,8 @@ feedback_attrs = feedback.map do |f|
     message: f['message'],
     created_at: f['created_at'],
     updated_at: f['updated_at'],
-    order_id: Order.find_by(uniqid: f['invoice_id']).present? ? Order.find_by(uniqid: f['invoice_id']).id : nil,
-    product_id: Product.find_by(uniqid: f['product_id']).present? ? Product.find_by(uniqid: f['product_id']).id : nil
+    invoice_uniqid: f['invoice_id'],
+    product_uniqid: f['product_id']
   }
   p hash
 end
