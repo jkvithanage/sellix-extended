@@ -41,7 +41,7 @@ class DashboardsController < ApplicationController
     all_arr = []
     crypto_arr = []
     fiat_arr = []
-    groups.values.each do |group|
+    groups.each_value do |group|
       sum_all = 0
       sum_crypto = 0
       sum_fiat = 0
