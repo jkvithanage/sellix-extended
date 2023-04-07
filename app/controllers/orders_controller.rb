@@ -1,9 +1,10 @@
 class OrdersController < ApplicationController
   def index
     @filter = OrderFilterService.new(params[:filter])
-    @orders = params[:filter].present? ? @filter.scope.ordered : Order.ordered
+    @all_orders = Order.all
+    @orders = params[:filter].present? ? @filter.scope.ordered.page(params[:page]) : Order.ordered.page(params[:page])
 
-    emails = Order.all.map(&:customer_email)
+    emails = @all_orders.map(&:customer_email)
     @customers = emails.uniq.sort
 
     @coupons = Coupon.ordered
@@ -16,7 +17,7 @@ class OrdersController < ApplicationController
 
   def total_sale
     total = 0
-    @orders.each do |order|
+    @all_orders.each do |order|
       total += order.total
     end
     total
@@ -24,7 +25,7 @@ class OrdersController < ApplicationController
 
   def total_discount
     total = 0
-    @orders.each do |order|
+    @all_orders.each do |order|
       total += order.discount
     end
     total
@@ -32,7 +33,7 @@ class OrdersController < ApplicationController
 
   def fiat_sales
     fiat, crypto = 0, 0
-    @orders.each do |order|
+    @all_orders.each do |order|
       if ['STRIPE', 'PAYPAL', 'PAYDASH'].include? order.gateway
         fiat += order.total
       else
